@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import CheckItem from './components/CheckItem'
@@ -8,14 +8,19 @@ import RecentContact from './components/RecentContact'
 import SearchInput from './components/SearchInput'
 import Swiper from './components/Swiper'
 import TextedSwitch from './components/TextedSwitch'
+import { ThemeContext } from './context/ThemeContext'
 
 const App = () => {
+	const { isDark } = useContext(ThemeContext)
 	return (
 		<React.Fragment>
-			<StatusBar backgroundColor="#1F1D2A" barStyle="light-content" />
+			<StatusBar
+				backgroundColor={isDark ? '#1F1D2A' : '#fff'}
+				barStyle={isDark ? 'light-content' : 'dark-content'}
+			/>
 			<ScrollView
 				keyboardShouldPersistTaps="handled"
-				style={styles.container}
+				style={styles.container(isDark)}
 				contentContainerStyle={styles.contentContainer}>
 				<SearchInput />
 				<ProfileSection />
@@ -32,6 +37,6 @@ const App = () => {
 export default App
 
 const styles = StyleSheet.create({
-	container: { flex: 1, backgroundColor: '#1F1D2A', paddingHorizontal: 16 },
+	container: (isDark) => ({ flex: 1, backgroundColor: isDark ? '#1F1D2A' : '#fff', paddingHorizontal: 16 }),
 	contentContainer: { paddingTop: 16, paddingBottom: 24 }
 })

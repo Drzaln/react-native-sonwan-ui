@@ -56,7 +56,7 @@ const Swiper = () => {
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}>
-				<Text style={{ fontWeight: 'bold' }}>SWIPE TO PAY</Text>
+				<Text style={{ fontWeight: 'bold', color: 'white' }}>SWIPE TO PAY</Text>
 				<Animated.View
 					style={[
 						{

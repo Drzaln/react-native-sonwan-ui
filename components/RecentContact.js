@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import { ThemeContext } from '../context/ThemeContext'
 import Container from './Container'
 import Text from './Text'
 
 const RecentContact = () => {
+	const { isDark } = useContext(ThemeContext)
 	return (
 		<Container style={styles.container}>
-			<Text style={styles.sectionTitle}>Recents Contact</Text>
+			<Text style={styles.sectionTitle(isDark)}>Recents Contact</Text>
 			<View style={styles.listContainer}>
 				<Person
 					imageUrl="https://randomuser.me/api/portraits/men/43.jpg"
@@ -29,6 +31,7 @@ const RecentContact = () => {
 }
 
 const Person = ({ title, subTitle, imageUrl }) => {
+	const { isDark } = useContext(ThemeContext)
 	return (
 		<View style={styles.personContainer}>
 			<Container style={styles.imageContainer}>
@@ -36,7 +39,7 @@ const Person = ({ title, subTitle, imageUrl }) => {
 			</Container>
 			<View style={styles.textContainer}>
 				<Text style={styles.title}>{title}</Text>
-				<Text style={styles.subTitle}>{subTitle}</Text>
+				<Text style={styles.subTitle(isDark)}>{subTitle}</Text>
 			</View>
 		</View>
 	)
@@ -46,7 +49,7 @@ export default RecentContact
 
 const styles = StyleSheet.create({
 	container: { padding: 20 },
-	sectionTitle: { color: 'rgba(255,255,255,0.50)', fontSize: 14 },
+	sectionTitle: (isDark) => ({ color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(0,0,0,0.50)', fontSize: 14 }),
 	listContainer: { marginTop: 10 },
 	personContainer: {
 		flexDirection: 'row',
@@ -68,5 +71,5 @@ const styles = StyleSheet.create({
 	},
 	textContainer: { flex: 10, marginHorizontal: 14, justifyContent: 'center' },
 	title: { fontSize: 14 },
-	subTitle: { fontSize: 12, color: 'rgba(255,255,255,0.50)' }
+	subTitle: (isDark) => ({ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(0,0,0,0.50)' })
 })

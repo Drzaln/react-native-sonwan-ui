@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import { ThemeContext } from '../context/ThemeContext'
 import Container from './Container'
 import Icon from './icons/Icon'
 import Text from './Text'
 
 const ProfileSection = () => {
 	const [ isChecked, setIsChecked ] = useState(false)
+	const { isDark } = useContext(ThemeContext)
 	return (
 		<Container style={styles.profileSection} disablePress={false} onPress={() => setIsChecked(!isChecked)}>
 			<Container style={styles.imageContainer}>
@@ -13,9 +15,9 @@ const ProfileSection = () => {
 			</Container>
 			<View style={styles.textContainer}>
 				<Text style={styles.title}>Thomas Wise</Text>
-				<Text style={styles.subTitle}>0821 - 7654 - 3210</Text>
+				<Text style={styles.subTitle(isDark)}>0821 - 7654 - 3210</Text>
 			</View>
-			<Container style={styles.iconContainer}>
+			<Container style={styles.iconContainer(isDark)}>
 				<Icon name="profile" fill="#fff" />
 			</Container>
 		</Container>
@@ -46,14 +48,14 @@ const styles = StyleSheet.create({
 	},
 	textContainer: { flex: 10, marginHorizontal: 14 },
 	title: { fontSize: 14 },
-	subTitle: { fontSize: 12, color: 'rgba(255,255,255,0.50)' },
-	iconContainer: {
+	subTitle: (isDark) => ({ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(0,0,0,0.50)' }),
+	iconContainer: (isDark) => ({
 		flex: 1,
-		backgroundColor: '#2F3142',
+		backgroundColor: isDark ? '#2F3142' : '#AEAFB2',
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: 10,
 		borderRadius: 13,
 		marginVertical: 0
-	}
+	})
 })

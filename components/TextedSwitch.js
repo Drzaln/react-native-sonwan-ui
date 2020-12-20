@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { ThemeContext } from '../context/ThemeContext'
 import Switch from './Switch'
 import Text from './Text'
 
 const TextedSwitch = () => {
-	const [ switchState, setSwitchState ] = useState(false)
+	const { isDark, setIsDark } = useContext(ThemeContext)
 	const handleOnPressSwitch = (value) => {
-		setSwitchState(value)
+		setIsDark(value)
 	}
 	return (
 		<View style={styles.container}>
 			<Text>Dark Mode</Text>
-			<Switch handleOnPress={handleOnPressSwitch} value={switchState} />
+			<Switch handleOnPress={handleOnPressSwitch} value={isDark} inActiveTrackColor="#AEAFB2" />
 		</View>
 	)
 }
