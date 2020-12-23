@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, useWindowDimensions } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
+	Extrapolate,
+	interpolate,
 	useAnimatedGestureHandler,
 	useAnimatedStyle,
 	useSharedValue,
@@ -12,6 +14,7 @@ import Icon from './icons/Icon'
 import Text from './Text'
 
 const Swiper = () => {
+	const screenWidth = useWindowDimensions().width
 	const width = useSharedValue(50)
 	const opacity = useSharedValue(0)
 	const marginLeft = useSharedValue(0)
@@ -22,7 +25,9 @@ const Swiper = () => {
 			opacity.value = 1
 		},
 		onActive: (event, context) => {
-			marginLeft.value = context.marginL + event.translationX
+			const maxWidth = Math.floor(screenWidth - 100)
+			const val = interpolate(event.translationX, [ 0, maxWidth ], [ 0, maxWidth ], Extrapolate.CLAMP)
+			marginLeft.value = val
 			width.value = context.width + marginLeft.value
 		},
 		onEnd: () => {
