@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions, Alert } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
 	Extrapolate,
@@ -15,9 +15,11 @@ import Text from './Text'
 
 const Swiper = () => {
 	const screenWidth = useWindowDimensions().width
+	const maxWidth = Math.floor(screenWidth - 100)
 	const width = useSharedValue(50)
 	const opacity = useSharedValue(0)
 	const marginLeft = useSharedValue(0)
+
 	const gestureHandler = useAnimatedGestureHandler({
 		onStart: (_, context) => {
 			context.width = width.value
@@ -25,7 +27,6 @@ const Swiper = () => {
 			opacity.value = 1
 		},
 		onActive: (event, context) => {
-			const maxWidth = Math.floor(screenWidth - 100)
 			const val = interpolate(event.translationX, [ 0, maxWidth ], [ 0, maxWidth ], Extrapolate.CLAMP)
 			marginLeft.value = val
 			width.value = context.width + marginLeft.value
@@ -49,6 +50,23 @@ const Swiper = () => {
 			opacity: opacity.value
 		}
 	})
+	const onHandlerStateChange = ({ nativeEvent }) => {
+		if (nativeEvent.translationX > maxWidth - 20) {
+			Alert.alert(
+				'Payment Success!',
+				'Yay!',
+				[
+					{
+						text: ' ',
+						onPress: () => console.log('Cancel Pressed'),
+						style: 'cancel'
+					},
+					{ text: 'Okay', onPress: () => console.log('OK Pressed') }
+				],
+				{ cancelable: false }
+			)
+		}
+	}
 
 	return (
 		<View>
@@ -75,8 +93,8 @@ const Swiper = () => {
 						animatedContainer
 					]}
 				/>
-				<View style={{ ...StyleSheet.absoluteFillObject, top: 7, left: 8 }}>
-					<PanGestureHandler onGestureEvent={gestureHandler}>
+				<View style={{ position: 'absolute', left: 8 }}>
+					<PanGestureHandler onGestureEvent={gestureHandler} onHandlerStateChange={onHandlerStateChange}>
 						<Animated.View
 							style={[
 								{
