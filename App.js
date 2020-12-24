@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { StatusBar, StyleSheet } from 'react-native'
+import { Alert, StatusBar, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import CheckItem from './components/CheckItem'
 import CheckSection from './components/CheckSection'
 import ProfileSection from './components/ProfileSection'
 import RecentContact from './components/RecentContact'
 import SearchInput from './components/SearchInput'
-import Swiper from './components/Swiper'
+import Slider from './components/Slider'
 import TextedSwitch from './components/TextedSwitch'
 import { ThemeContext } from './context/ThemeContext'
 
@@ -28,7 +28,23 @@ const App = () => {
 				<RecentContact />
 				<CheckItem />
 				<TextedSwitch />
-				<Swiper />
+				<Slider
+					label="SWIPE TO PAY"
+					onSuccessSwipe={() =>
+						Alert.alert(
+							'Payment Success!',
+							'Yay!',
+							[
+								{
+									text: ' ',
+									onPress: () => console.log('Cancel Pressed'),
+									style: 'cancel'
+								},
+								{ text: 'Okay', onPress: () => console.log('OK Pressed') }
+							],
+							{ cancelable: false }
+						)}
+				/>
 			</ScrollView>
 		</React.Fragment>
 	)

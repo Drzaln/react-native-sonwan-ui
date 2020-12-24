@@ -13,7 +13,7 @@ const SearchInput = () => {
 			<TextInput
 				onFocus={() => setInputFocus(true)}
 				onBlur={() => setInputFocus(false)}
-				style={styles.inputStyle}
+				style={styles.inputStyle(isDark)}
 				onChangeText={(text) => setSearchInput(text)}
 				value={searchInput}
 				placeholder="Search"
@@ -32,7 +32,7 @@ const SearchInput = () => {
 export default SearchInput
 
 const styles = StyleSheet.create({
-	inputStyle: { flex: 2, marginRight: 16, height: 40 },
+	inputStyle: (isDark) => ({ flex: 2, marginRight: 16, height: 40, color: isDark ? 'white' : 'black' }),
 	container: (inputFocus, isDark) => ({
 		paddingVertical: 8,
 		paddingHorizontal: 16,

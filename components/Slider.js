@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, useWindowDimensions, Alert } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, useWindowDimensions } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
 	Extrapolate,
@@ -13,7 +13,11 @@ import Animated, {
 import Icon from './icons/Icon'
 import Text from './Text'
 
-const Swiper = () => {
+const Swiper = ({
+	onSuccessSwipe = () => {},
+	thumbIcon = () => <Icon name="arrow-right" width={18} stroke="#525298" />,
+	label = ''
+}) => {
 	const screenWidth = useWindowDimensions().width
 	const maxWidth = Math.floor(screenWidth - 100)
 	const width = useSharedValue(50)
@@ -50,23 +54,12 @@ const Swiper = () => {
 			opacity: opacity.value
 		}
 	})
-	const onHandlerStateChange = ({ nativeEvent }) => {
+
+	const onHandlerStateChange = useCallback(({ nativeEvent }) => {
 		if (nativeEvent.translationX > maxWidth - 20) {
-			Alert.alert(
-				'Payment Success!',
-				'Yay!',
-				[
-					{
-						text: ' ',
-						onPress: () => console.log('Cancel Pressed'),
-						style: 'cancel'
-					},
-					{ text: 'Okay', onPress: () => console.log('OK Pressed') }
-				],
-				{ cancelable: false }
-			)
+			onSuccessSwipe()
 		}
-	}
+	}, [])
 
 	return (
 		<View>
@@ -79,7 +72,7 @@ const Swiper = () => {
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}>
-				<Text style={{ fontWeight: 'bold', color: 'white' }}>SWIPE TO PAY</Text>
+				<Text style={{ fontWeight: 'bold', color: 'white' }}>{label}</Text>
 				<Animated.View
 					style={[
 						{
@@ -107,7 +100,7 @@ const Swiper = () => {
 								},
 								animatedStyle
 							]}>
-							<Icon name="arrow-right" width={18} stroke="#525298" />
+							{thumbIcon()}
 						</Animated.View>
 					</PanGestureHandler>
 				</View>
