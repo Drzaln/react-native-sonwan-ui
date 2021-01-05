@@ -28,5 +28,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          name: SonWanUI.apk
+          name: SonWanUI App
           path: android/app/build/outputs/apk/release/app-release.apk
