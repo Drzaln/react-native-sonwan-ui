@@ -26,7 +26,7 @@ jobs:
         run: |
           cd android && ./gradlew assembleRelease
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
-          name: SonWanUI App
-          path: android/app/build/outputs/apk/release/app-release.apk
+          name: SonWanUI-apk
+          path: '**/*.apk'
